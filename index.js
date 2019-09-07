@@ -1,8 +1,8 @@
 'use strict';
 
 // API Keys
-const apiKey = '333747dc8dfa02a42a6f0acf5208fa31';
-const apiKeyMaps = 'AIzaSyB50Sb-fhSbGV9pFMByOjrkZNDz1H8r0pc';
+const apiKey = 'apiKey OpenUv';
+const apiKeyMaps = 'apiKey google';
 
 // base URLs openUV
 const baseUrlUV = 'https://api.openuv.io/api/v1/uv';

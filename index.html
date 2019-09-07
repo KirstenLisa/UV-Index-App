@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta description="App with which runners can check UV index and weather to decide whether to run outdoors or inside">
+    <title>UV Index App</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="startPage">
+        <h1>Track or Treadmill?</h1>
+
+        <form id="js-form">
+            <label for="location">Enter your location</label>
+            <input type="text" name="locationInput" id="js-location-input" placeholder="e.g. Toronto" required>
+
+            <input type="submit" value="Go!">
+        </form>
+     </div>   
+
+        <p id="js-error-message" class="error-message"></p>
+        <section id="results" class="hidden">
+          <h2>Search results</h2>
+          <ul id="results-list">
+          </ul>
+        </section>
+   
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 'use strict';
 
 // API Keys
-const apiKey = 'apiKey OpenUv';
-const apiKeyMaps = 'apiKey google';
+const apiKey = '';
+const apiKeyMaps = '';
 
 // base URLs openUV
 const baseUrlUV = 'https://api.openuv.io/api/v1/uv';
@@ -11,9 +11,7 @@ const baseUrlFC = 'https://api.openuv.io/api/v1/forecast';
 
 // base URL Geocoding
 const baseUrlLoc = 'https://maps.googleapis.com/maps/api/geocode/json?'
-let lat = -31.1;
-let lng = 56.4;
-let dt = '2019-09-14T10:50:52.283Z';
+
 let today = new Date;
 console.log(today);
 let tomorrow = new Date(today.setDate(today.getDate() + 1));
@@ -47,7 +45,6 @@ navigator.geolocation.getCurrentPosition(success, error, options); */
 
 //get location from input
 function getLongLat(userInput) {
-  //https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyB50Sb-fhSbGV9pFMByOjrkZNDz1H8r0pc&address=rüsselsheim&sensor=false
   const searchUrlLoc = baseUrlLoc + 'key=' + apiKeyMaps + '&address=' + userInput + '&sensor=false';
   console.log(searchUrlLoc);
 
@@ -64,8 +61,6 @@ function getLongLat(userInput) {
     }); 
 }
 
-
-
 function getResultsLoc(responseJson) {
  let userLat = `${responseJson.results[0].geometry.location.lat}`;
  let userLng = `${responseJson.results[0].geometry.location.lng}`;
@@ -75,7 +70,7 @@ function getResultsLoc(responseJson) {
 } 
 
 function getUVIndex(latitude, longitude) {
-  const urlUV = baseUrlUV + '?lat=' + lat + '&lng=' + lng;
+  const urlUV = baseUrlUV + '?lat=' + latitude + '&lng=' + longitude;
   console.log(urlUV);
 
   const options = {
@@ -160,54 +155,137 @@ function displayResultsFC(responseJson) {
   return queryItems.join('&');
 } */
 
-
-// loop through results
-function displayResultsUV(responseJson) {
-  // if there are previous results, remove them
-  console.log(responseJson);
+function weatherButtonHandler() {
+  $('#results-UV').on('click', '#weatherButton', function(event) {
+    event.preventDefault();
+    console.log("Display weather");
+ });
 }
-  /* $('#results-list').empty();
-  // iterate through the items array
-  for (let i = 0; i < responseJson.items.length; i++){
-    // for each video object in the items 
-    //array, add a list item to the results 
-    //list with the video title, description,
-    //and thumbnail
-    $('#results-list').append(
-      `<li><h3>${responseJson.items[i].snippet.title}</h3>
-      <p>${responseJson.items[i].snippet.description}</p>
-      <img src='${responseJson.items[i].snippet.thumbnails.default.url}'>
-      </li>`
-    )};
-  //display the results section  
-  $('#results').removeClass('hidden'); 
-}; */
 
-/*function getUserLocation(query) {
-  const params = {
-    key: apiKey,
-    q: query,
-    part: 'snippet',
-    maxResults,
-    type: 'video'
-  };
-  const queryString = formatQueryParams(params)
-  const url = searchURL + '?' + queryString;
+ function protectionButtonHandler() {
+   $('#results-UV').on('click', '#protectionButton', function(event) {
+     event.preventDefault();
+     console.log("Display protection time");
+   });
+ }
 
-  console.log(url);
+  function treadmillButtonHandler() {
+   $('#results-UV').on('click', '#treadmillButton', function(event) {
+     event.preventDefault();
+     console.log("Display treadmill page");
+   });
+ }
 
-  fetch(url)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then(responseJson => displayResults(responseJson))
-    .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
-    }); 
-} */
+function displayResultsUV(responseJson) {
+  console.log(responseJson);
+  let uvIndex = `${responseJson.result.uv}`;
+  console.log("The index is: " + uvIndex);
+  console.log(`${responseJson.result.safe_exposure_time.st1}`);
+  $(".startPage").remove();
+  weatherButtonHandler();
+  protectionButtonHandler()
+  if(uvIndex === 0) {
+    $('body').append(`<section id="results-UV">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">No UV, no danger! Go out and enjoy the fresh air. But maybe take a look at the weather before.</h3>
+      <input id="weatherButton" type="submit" value="Check the weather">
+    </section>`);
+
+  } else if(uvIndex > 0) {
+    $('body').append(`<section id="results-UV" class="hidden">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">A UV index reading of 0 to 2 means low danger from the Sun\'s UV rays for the average person. But make sure you wear the right clothes. Check the weather.</h3>
+      <ul id="results-list">
+        <li class="skinType">${responseJson.result.safe_exposure_time.st1}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st2}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st3}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st4}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st5}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st6}</li>
+          </ul>
+        <input id="weatherButton" type="submit" value="Check the weather">
+    </section>`);
+
+  } else if(uvIndex >= 3) {
+    $('body').append(`<section id="results-UV" class="hidden">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">A UV index reading of 3 to 5 means moderate risk of harm from unprotected Sun exposure.</h3>
+      <ul id="results-list">
+        <li class="skinType">${responseJson.result.safe_exposure_time.st1}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st2}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st3}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st4}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st5}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st6}</li>
+          </ul>
+        <input id="weatherButton" type="submit" value="Check the weather">
+        <input id="protectionButton" type="submit" value="Find a saver time to run">
+    </section>`);
+
+  } else if(uvIndex >= 6) {
+    $('body').append(`<section id="results-UV" class="hidden">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">A UV index reading of 6 to 7 means high risk of harm from unprotected Sun exposure. Protection against skin and eye damage is needed.</h3>
+      <ul id="results-list">
+        <li class="skinType">${responseJson.result.safe_exposure_time.st1}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st2}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st3}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st4}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st5}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st6}</li>
+          </ul>
+        <input id="protectionButton" type="submit" value="Find a saver time to run">
+        <input id="treadmillButton" type="submit" value="No thank you, I go on the treadmill">
+    </section>`);
+
+  } else if(uvIndex >= 8) {
+    $('body').append(`<section id="results-UV" class="hidden">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">Red alert. This is the second highest UV index. Try to avoid exposure to the sun. On the treadmill in the gym the sun doesn't shine. Go there!</h3>
+      <ul id="results-list">
+        <li class="skinType">${responseJson.result.safe_exposure_time.st1}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st2}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st3}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st4}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st5}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st6}</li>
+          </ul>
+        <input id="protectionButton" type="submit" value="Find a saver time to run">
+        <input id="treadmillButton" type="submit" value="No thank you, I go on the treadmill">
+    </section>`);
+ 
+  } else if(uvIndex >= 11) {
+    $('body').append(`<section id="results-UV" class="hidden">
+      <h2>The UV Index is</h2>
+      <p id="results-value">${uvIndex}
+      </p>
+      <h3 id="results-description">Violet alert! That is even more than red. You should not be outside and for sure not run outside. Go on the treadmill and stay helathy</h3>
+      <ul id="results-list">
+        <li class="skinType">${responseJson.result.safe_exposure_time.st1}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st2}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st3}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st4}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st5}</li>
+        <li class="skinType">${responseJson.result.safe_exposure_time.st6}</li>
+          </ul>
+        <input id="protectionButton" type="submit" value="Find a saver time to run">
+        <input id="treadmillButton" type="submit" value="No thank you, I go on the treadmill">
+    </section>`);
+  }
+}
+
+  
+
 
 function watchForm() {
   $('form').submit(event => {
@@ -215,7 +293,7 @@ function watchForm() {
     const locationInput = $('#js-location-input').val();
     $('#js-location-input').val('');
     console.log(locationInput);
-    getLongLat(locationInput)
+    getLongLat(locationInput);
   });
 }
 

@@ -6,7 +6,7 @@ var timeDiff=0;
 
 // API Keys
 const apiKey = '333747dc8dfa02a42a6f0acf5208fa31';
-const apiKeyMaps = 'AIzaSyB50Sb-fhSbGV9pFMByOjrkZNDz1H8r0pc';
+const apiKeyMaps = '';
 const apiWeather = 'da9ba0c8fdbb4347b8cb7aa8c3adad39';
 
 

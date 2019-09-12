@@ -4,18 +4,27 @@
 
 body {
   font-family: Karla, sans-serif; 
+  background: #ffffe0;
 }
 
 nav {
-  background: lightgray;
+  background: lightblue;
   position: fixed;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
+}
+
+#logo {
+  height: 86px;
+}
+
+#sun {
+  height: 93px;
+  right: 0px;
 }
 
 a:-webkit-any-link {
@@ -23,22 +32,48 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
+a:hover {
+  font-weight: bold;
+}
+
 #navList {
   list-style: none;
   text-decoration: none;
+  text-align: center;
+  padding: 0px;
+  margin: 12px 12px 12px 0px;
+  font-size: 16px;
 }
 
 #linkList {
   display: none;
+  order: 4;
+  position: absolute;
+  flex-direction: row;
+  padding: 10px;
+  top: 77px;
+  right: 0px;
   list-style: none;
   text-decoration: none;
+  background: lightblue;
+}
+
+#linkList li {
+  margin: 10px;
+}
+
+.linkImage {
+  display: none;
 }
 
 .hamburger {
   font-size: 40px;
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  position: absolute;
+  top: 28px;
+  right: 13px;
+  width: 0.9em;
+  height: 0.9em;
   padding: 0;
   margin-right: 15px;
   cursor: pointer;
@@ -62,22 +97,48 @@ a:-webkit-any-link {
   margin: 0 0 .2em;
   transition: transform .2s ease-in-out;
   border-radius: .05em;
-  background: #596c7d;
+  background: #b5b9bd;
 }
 
+.hamburger:hover {
+  background: black;
+}
+
+
+.hamburger.active:before,
+.hamburger.active .icon,
+.hamburger.active:after {
+  background: red;
+}
 
 main {
   margin-top: 130px;
 }
 
+#startImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 111px;
+  border-radius: 5px;
+  background-color: white;
+  border: 7px solid lightblue;
+}
+
 .startPage {
   display: block;
   width: 80%;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
 }
 
 h1 {
   width: 100%;
+  text-align: center;
+}
+
+h3 {
   text-align: center;
 }
 
@@ -96,6 +157,7 @@ input {
 
 
 label {
+  font-size: 18px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -104,7 +166,9 @@ label {
 }
 
 input {
-  border: 2px solid gray;
+  background-color: white;
+  border: 3px solid lightblue;
+  font-size: 16px;
 }
 
 button, input[type="text"] {
@@ -113,6 +177,10 @@ button, input[type="text"] {
 
 button:hover {
   cursor: pointer;
+}
+
+.button:hover {
+  background-color: #11e47b54;
 }
 
 .container {
@@ -124,22 +192,308 @@ button:hover {
     color: red;
 }
 
-#forecastList {
-  list-style: none;
+.uvResult {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 23px;
 }
 
-.results-weather {
-  font-size: 30px;
+h2 {
+  font-weight: bolder;
+  text-align: center;
+  font-size: 28px;
+}
+
+.results-description {
+  font-size: 18px;
+  text-align: center;
+}
+
+.results-value {
+  font-size: 34px;
+  margin: 12px;
+  text-align: center;
+}
+
+.colorBar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.inner {
+  height: 50px;
+  width: 17%;
+  margin: 2px;
+}
+
+.inner-one {
+   background-color: rgb(28, 211, 28);
+}
+
+.inner-two {
+  background-color:yellow;
+}
+
+.inner-three {
+  background-color: orange;
+}
+
+.inner-four {
+  background-color: red;
+}
+
+.inner-five {
+  background-color: purple;
+}
+
+.inner-green {
+   background-color: rgb(28, 211, 28);
+   height: 70px;
+   width: 22%;
+   border: 3px solid black;
+}
+
+.inner-yellow {
+  background-color:yellow;
+  height: 70px;
+  width: 22%;
+  border: 3px solid black;
+}
+
+.inner-orange {
+  background-color: orange;
+  height: 70px;
+  width: 22%;
+  border: 3px solid black;
+}
+
+.inner-red {
+  background-color: red;
+  height: 70px;
+  width: 22%;
+  border: 3px solid black;
+}
+
+.inner-violet {
+  background-color: purple;
+  height: 70px;
+  width: 22%;
+  border: 3px solid black;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+#results-list {
+  list-style: none;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 35px;
+  margin-top: 1px;
+  padding-left: 15px;
+}
+
+.skinType {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+#results-list span {
+  font-size: 21px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.skinImage {
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 3px;
+  background-color: white;
+  border: 2px solid lightblue;
+}
+
+#forecastList {
+  list-style: none;
+  padding: 0px;
+}
+
+#weatherPage {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+.weatherImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 111px;
+  border-radius: 5px;
+  background-color: white;
+  border: 7px solid lightblue;
+}
+
+.temperatureDisplay {
+  margin-bottom: 28px;
+  margin-top: 10px;
+}
+
+#temp {
+  position: relative;
+}
+
+#tempPic {
+  height: 40px;
+  position: absolute;
+  left: 72px;
+  bottom: 160px;
+}
+
+.weather-list {
+  list-style: none;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 35px;
+  margin-top: 1px;
+  padding-left: 15px;
+}
+
+.weatherLi {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-left: 54px;
+}
+
+.weatherIcon {
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 3px;
+  background-color: white;
+  border: 2px solid lightblue;
 }
 
 @media screen  and (min-width: 760px) /* Tablet */ {
-  .hamburger {
-    display: none;
+  
+
+  nav {
+    display: flex;
+    justify-content: space-between;
   }
+
+  #navList {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    margin: 0px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #navList li {
+    margin: 7px;
+  }
+
+  .linkImage {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    top: 8px;
+    left: -3px;
+}
+  }
+
+  #sun {
+    height: 100px;
+  }
+
+  .hamburger {
+    right: 17px;
+  }
+
+  .inner {
+    height: 60px;
+  }
+
+.inner-green {
+   height: 80px;
+}
+
+.inner-yellow {
+  height: 80px;
+}
+
+.inner-orange {
+  height: 80px;
+}
+
+.inner-red {
+  height: 80px;
+}
+
+.inner-violet {
+  background-color: purple;
+  height: 80px;
+}
+
+
 }
 
 @media screen and (min-width: 980px) /* Desktop */ {
-  .hamburger {
-    display: none;
+  
+  #logo {
+    height: 103px;
   }
+
+  .linkImage {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    top: 9px;
+    left: -3px;
+}
+
+  #navList {
+    font-size: 22px;
+  }
+
+  .linkImage {
+    height: 34px;
+  }
+
+  .inner {
+    height: 100px;
+  }
+
+.inner-green {
+   height: 120px;
+}
+
+.inner-yellow {
+  height: 120px;
+}
+
+.inner-orange {
+  height: 120px;
+}
+
+.inner-red {
+  height: 120px;
+}
+
+.inner-violet {
+  background-color: purple;
+  height: 120px;
+}
+
 }

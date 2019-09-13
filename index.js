@@ -38,7 +38,7 @@ function buildStartPage() {
         <form id="js-form">
             <label for="location">Enter your location</label>
             <input type="text" name="locationInput" id="js-location-input" placeholder="e.g. Toronto" required>
-            <input class="button" type="submit" value="Get UV Index!">
+            <input type="submit" value="Get UV Index!">
         </form>
      </div>
      <div class="errorMessage">   
@@ -89,10 +89,10 @@ buildStartPage();
 function buildNav() {
   $('header').append(`<nav role="navigation"><img id="logo" src="images/beach-umbrella.png" alt="logo">
             <ul id="navList">
-                <li id="uvIndexLink"><a href="#startPage"><img class="linkImage" src="images/sun.png" alt="sun">Get UV Index</a></li>
-                <li id="uvForecastLink"><a href="#forecastPage"><img class="linkImage" src="images/sun.png" alt="sun">UV Forecast</a></li>
-                <li id="protectionTimeLink"><a href="#protectionPage"><img class="linkImage" src="images/sun.png" alt="sun">Protection Time</a></li>
-                <li id="weatherLink"><a href="#weatherPage"><img class="linkImage" src="images/sun.png" alt="sun">Weather</a></li>
+                <li id="uvIndexLink"><a href="#startPage"><img class="linkImage" src="images/sun2.png" alt="sun">Get UV Index</a></li>
+                <li id="uvForecastLink"><a href="#forecastPage"><img class="linkImage" src="images/sun2.png" alt="sun">UV Forecast</a></li>
+                <li id="protectionTimeLink"><a href="#protectionPage"><img class="linkImage" src="images/sun2.png" alt="sun">Protection Time</a></li>
+                <li id="weatherLink"><a href="#weatherPage"><img class="linkImage" src="images/sun2.png" alt="sun">Weather</a></li>
             </ul>
             <ul id="linkList">
                 <li id="uvIndexWiki"><a target="_blank" href="https://en.m.wikipedia.org/wiki/Ultraviolet_index">UV Index</a></li>
@@ -288,7 +288,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
         <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
         <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span> </li>
-        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5 class="skinImage"">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span> </li>
+        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5 class="skinImage>Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span> </li>
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
         </ul>
         <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
@@ -397,7 +397,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
           </ul>
-        <input id="weatherButton" type="submit" value="Check the weather">
+        <input id="weatherButton" class="button" type="submit" value="Check the weather">
         <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
     </section>`);
 
@@ -459,15 +459,15 @@ function displayResultsProt(responseJson) {
   let startHours = startTime.getHours();
   let startMin = startTime.getMinutes();
   let endHours = endTime.getHours();
-  let endMin = endTime.getMinutes();
+  let endMin = endTime.getMinutes().toString().replace(/^(\d)$/, '0$1');
   console.log("Time: " + startTime);
   console.log("endRaw: "+ endTime);
   $('.uvResult').remove();
-  $('main').append(`<div id="protectionPage"><img id="protectionImage" src="slippers.png" alt="Flipflops"><h3>Protection Time</h3>
+  $('main').append(`<div id="protectionPage"><img id="protectionImage" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
         <p class="results-protection">
-            From ${startHours}:${startMin} to ${endHours}:${endMin} the UV index is over 3.5. 
+            From <span>${startHours}:${startMin}</span> to <span>${endHours}:${endMin}</span> the UV index is over 3.5. 
             Use adequate protection or go to the beach after ${endHours}:${endMin}.</p>
-            <input id="forecastButton" type="submit" value="Get tomorrow's UV index">
+            <input id="forecastButton" class="button" type="submit" value="Get tomorrow's UV index">
     </div>`);
     forecastButtonHandler()
     treadmillButtonHandler() 
@@ -489,28 +489,33 @@ function getUVForecast(latitude, longitude) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayResultsFC(responseJson))
+    .then(responseJson => convertResultsFC(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     }); 
 } 
 
 
-function displayResultsFC(responseJson) {
+function convertResultsFC(responseJson) {
   console.log(responseJson);
   console.log('display forecast ran');
-  let resultsLi ='';
+  let resultsLi =[];
   for(let i=0; i<responseJson.result.length; i++) {
-    console.log(`${responseJson.result[i].uv}`);
-    resultsLi += `<li>UV index: ${responseJson.result[i].uv} at: ${responseJson.result[i].uv_time}</li>`
+    resultsLi += `<li>UV index: ${responseJson.result[i].uv} at:` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" + new Date(`${responseJson.result[i].uv_time}`).getMinutes().toString().replace(/^(\d)$/, '0$1') + `</li>`;
   }
   console.log(resultsLi);
+  displayResultsFC(resultsLi);
+
+}
+
+function displayResultsFC(result) {
   $('main').empty();
   $('main').append(`<div id='#forecastPage'><h2 id="forecastHeadline">Your UV Forecast for tomorrow</h2>
         <ul id="forecastList">
-            ${resultsLi}
+            ${result}
         </ul>
     </div>`)
+
 } 
 
 
@@ -550,13 +555,14 @@ function displayWeather(responseJson) {
   $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in ${city} <p class="results-value">${weather}</p></h2>
-            <container class="temperatureDisplay"><img class="weatherImage" src="images/sun-92.png">
+            <img class="weatherImage" src="images/sun-92.png">
+            <container class="temperatureDisplay">
             <img id="tempPic" src="images/thermometer.png">
             <p id="temp" class="results-value">${temperature} C°</p></container>
             <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/slippers.png" alt="humidity">Humidity: ${humidity}</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind.png">Wind: ${wind}</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage}</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
             </ul>
     </div>`);
 }

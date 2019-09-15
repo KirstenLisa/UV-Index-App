@@ -392,7 +392,7 @@ h3 {
   text-align: center;
 }
 
-#weatherImage {
+#weatherNight {
   background: blue;
 }
 
@@ -572,7 +572,11 @@ h3 {
   }
 
   h3 {
-    font-size: 27px;
+    font-size: 40px;
+  }
+
+  .results-protection {
+    font-size: 30px;
   }
 
   form {
@@ -686,8 +690,8 @@ h3 {
   }
 
   .button {
-    font-size: 20px;
-    height: 50px;
+    font-size: 24px;
+    height: 60px;
     width: 65%;
   }
 

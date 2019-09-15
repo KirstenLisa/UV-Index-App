@@ -258,14 +258,6 @@ function getUVIndex(latitude, longitude) {
    });
  }
 
-function treadmillButtonHandler() {
-   $('#treadmillButton').click(function(event) {
-     console.log("Display treadmill page");
-     displayTreadmillPage();
-   });
- }
-
-
  function weatherButtonHandler() {
   $('#weatherButton').click(function(event) {
     console.log("weatherHandler works");
@@ -278,7 +270,7 @@ function displayResultsUV(responseJson) {
   let uvIndex = `${responseJson.result.uv}`;
   console.log("The index is: " + uvIndex);
   console.log(`${responseJson.result.safe_exposure_time.st1}`);
-  $(".startPage").remove();
+  $('main').empty();
   buildNav();
 
   if(uvIndex >= 11) {
@@ -474,7 +466,7 @@ function displayResultsProt(responseJson) {
   let endMin = endTime.getMinutes().toString().replace(/^(\d)$/, '0$1');
   console.log("Time: " + startTime);
   console.log("endRaw: "+ endTime);
-  $('.uvResult').remove();
+  $('main').empty();
   $('main').append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
         <p class="results-protection">
             From <span>${startHours}:${startMin}</span> to <span>${endHours}:${endMin}</span> the UV index is over 3.5. 
@@ -570,12 +562,12 @@ function displayWeather(responseJson) {
   console.log(temperature);
   console.log(wind);
   console.log(daytime);
-  $('.uvResult').remove();
+  $('main').empty();
   if(daytime == "n") {
     $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in ${city} <p class="results-value">${weather}</p></h2>
-            <img id="weatherImage" class="mainPic" src="images/stars-and-moon.png">
+            <img id="weatherNight" class="mainPic" src="images/stars-and-moon.png">
             <container class="temperatureDisplay">
             <img id="tempPic" src="images/thermometer.png">
             <p id="temp" class="results-value">${temperature} C°</p></container>

@@ -32,7 +32,7 @@ let tomorrow = new Date(today.setDate(today.getDate() + 1));
 console.log(tomorrow);
 
 function buildStartPage() {
-  $('main').append(`<div class="startPage"><img id="startImage" src="images/sunbed.png" alt="sunbed">
+  $('main').append(`<div class="startPage"><img id="startImage" class="mainPic" src="images/sunbed.png" alt="sunbed">
         <h1>Beach or Basement?</h1>
         <h3 class="startH2">Find out how long you should stay in the sun today</h3>
         <form id="js-form">
@@ -43,8 +43,7 @@ function buildStartPage() {
      </div>
      <div class="errorMessage">   
         <p id="js-error-message" class="error-message"></p>
-    </div>
-    <footer role="footer"></footer>`);
+    </div>`);
 }
 
 function startApp() {
@@ -291,7 +290,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5 class="skinImage>Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span> </li>
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
         </ul>
-        <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
         <input id="weatherButton" class="button" type="submit" value="Check the weather">
     </section>`);
 
@@ -318,7 +317,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
         </ul>
-        <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
         <input id="weatherButton" class="button" type="submit" value="Check the weather">
     </section>`);
 
@@ -344,7 +343,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
         </ul>
-        <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
         <input id="weatherButton" class="button" type="submit" value="Check the weather">
     </section>`);
 
@@ -372,7 +371,7 @@ function displayResultsUV(responseJson) {
           <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
           </ul>
         <input id="weatherButton" class="button" type="submit" value="Check the weather">
-        <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
     </section>`);
 
   } else if(uvIndex > 0) {
@@ -398,7 +397,7 @@ function displayResultsUV(responseJson) {
         <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
           </ul>
         <input id="weatherButton" class="button" type="submit" value="Check the weather">
-        <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
     </section>`);
 
     } else if(uvIndex == 0) {
@@ -415,7 +414,7 @@ function displayResultsUV(responseJson) {
         <div class="inner inner-five"></div>
       </div>
       <input id="weatherButton" class="button" type="submit" value="Check the weather">
-      <input id="protectionButton" class="button" type="submit" value="Check tomorrow's UVI">
+      <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
     </section>`);
     }
   weatherButtonHandler();
@@ -463,7 +462,7 @@ function displayResultsProt(responseJson) {
   console.log("Time: " + startTime);
   console.log("endRaw: "+ endTime);
   $('.uvResult').remove();
-  $('main').append(`<div id="protectionPage"><img id="protectionImage" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
+  $('main').append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
         <p class="results-protection">
             From <span>${startHours}:${startMin}</span> to <span>${endHours}:${endMin}</span> the UV index is over 3.5. 
             Use adequate protection or go to the beach after ${endHours}:${endMin}.</p>
@@ -501,7 +500,12 @@ function convertResultsFC(responseJson) {
   console.log('display forecast ran');
   let resultsLi =[];
   for(let i=0; i<responseJson.result.length; i++) {
-    resultsLi += `<li>UV index: ${responseJson.result[i].uv} at:` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" + new Date(`${responseJson.result[i].uv_time}`).getMinutes().toString().replace(/^(\d)$/, '0$1') + `</li>`;
+    resultsLi += `<li><span class="uvFC">${responseJson.result[i].uv}</span> UV Index at ` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" 
+    + new Date(`${responseJson.result[i].uv_time}`).getMinutes().toString().replace(/^(\d)$/, '0$1')
+    + `</li>`;
+    if(`${responseJson.result[i].uv}`>3.5) {
+      $('li').addClass('red'); 
+    }
   }
   console.log(resultsLi);
   displayResultsFC(resultsLi);
@@ -510,7 +514,7 @@ function convertResultsFC(responseJson) {
 
 function displayResultsFC(result) {
   $('main').empty();
-  $('main').append(`<div id='#forecastPage'><h2 id="forecastHeadline">Your UV Forecast for tomorrow</h2>
+  $('main').append(`<div id='#forecastPage'><img id="forecastImage" class="mainPic" src="images/slippers.png"><h2 id="forecastHeadline">Your UV Forecast for tomorrow</h2>
         <ul id="forecastList">
             ${result}
         </ul>
@@ -543,6 +547,7 @@ function getWeather(latitude, longitude) {
 function displayWeather(responseJson) {
   console.log('display weather ran');
   console.log(responseJson);
+  let daytime = `${responseJson.data[0].weather.pod}`;
   let weather = `${responseJson.data[0].weather.description}`;
   let temperature = `${responseJson.data[0].temp}`;
   let wind = `${responseJson.data[0].wind_spd}`;
@@ -551,11 +556,13 @@ function displayWeather(responseJson) {
   console.log(weather);
   console.log(temperature);
   console.log(wind);
+  console.log(daytime);
   $('.uvResult').remove();
-  $('main').append(`<div id="weatherPage">
+  if(daytime == "n") {
+    $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in ${city} <p class="results-value">${weather}</p></h2>
-            <img class="weatherImage" src="images/sun-92.png">
+            <img id="weatherImage" class="mainPic" src="images/stars-and-moon.png">
             <container class="temperatureDisplay">
             <img id="tempPic" src="images/thermometer.png">
             <p id="temp" class="results-value">${temperature} C°</p></container>
@@ -565,6 +572,79 @@ function displayWeather(responseJson) {
                 <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
             </ul>
     </div>`);
+} else if(temperature > 30 && cloudCoverage < 50) {
+  $('main').append(`<div id="weatherPage">
+        <h2 class="results-weather" id="#weather1">
+            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            <img id="weatherImage" class="mainPic" src="images/sun@3x.png">
+            <container class="temperatureDisplay">
+            <img id="tempPic" src="images/thermometer.png">
+            <p id="temp" class="results-value">${temperature} C°</p></container>
+            <ul class="weather-list">
+                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+            </ul>
+    </div>`);
+} else if(temperature < 30 && cloudCoverage < 50) {
+  $('main').append(`<div id="weatherPage">
+        <h2 class="results-weather" id="#weather1">
+            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            <img id="weatherImage" class="mainPic" src="images/sunblack.png">
+            <container class="temperatureDisplay">
+            <img id="tempPic" src="images/thermometer.png">
+            <p id="temp" class="results-value">${temperature} C°</p></container>
+            <ul class="weather-list">
+                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+            </ul>
+      </div>`);
+} else if(temperature < 0) {
+  $('main').append(`<div id="weatherPage">
+        <h2 class="results-weather" id="#weather1">
+            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            <img id="weatherImage" class="mainPic" src="images/snowflake.png">
+            <container class="temperatureDisplay">
+            <img id="tempPic" src="images/thermometer.png">
+            <p id="temp" class="results-value">${temperature} C°</p></container>
+            <ul class="weather-list">
+                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+            </ul>
+      </div>`);
+} else if(cloudCoverage > 80) {
+  $('main').append(`<div id="weatherPage">
+        <h2 class="results-weather" id="#weather1">
+            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            <img id="weatherImage" class="mainPic" src="images/cloud.png">
+            <container class="temperatureDisplay">
+            <img id="tempPic" src="images/thermometer.png">
+            <p id="temp" class="results-value">${temperature} C°</p></container>
+            <ul class="weather-list">
+                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+            </ul>
+      </div>`);
+} else {
+    $('main').append(`<div id="weatherPage">
+          <h2 class="results-weather" id="#weather1">
+              The Weather in ${city} <p class="results-value">${weather}</p></h2>
+              <img id="weatherImage" class="mainPic" src="images/sun-92.png">
+              <container class="temperatureDisplay">
+              <img id="tempPic" src="images/thermometer.png">
+              <p id="temp" class="results-value">${temperature} C°</p></container>
+              <ul class="weather-list">
+                  <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+                  <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+                  <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+              </ul>
+        </div>`);
+}
+
+
 }
 
 

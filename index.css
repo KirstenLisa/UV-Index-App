@@ -48,7 +48,6 @@ a:-webkit-any-link {
 a:hover {
   font-weight: bold;
   color: #ff005896;
-
 }
 
 #navList {
@@ -135,7 +134,7 @@ a:hover {
 
 
 main {
-  margin-top: 90px;
+  margin-top: 130px;
 }
 
 #startImage {
@@ -149,6 +148,14 @@ main {
 }
 
 .startPage {
+  display: block;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -80px;
+}
+
+.startPage2 {
   display: block;
   width: 80%;
   margin-left: auto;
@@ -194,12 +201,18 @@ button, input[type="text"] {
   padding: 5px;
 }
 
-button:hover {
+input:hover {
+  cursor: pointer;
+}
+
+.uvButton:hover {
+  background-color: #11e47b54;
   cursor: pointer;
 }
 
 .button:hover {
   background-color: #11e47b54;
+  cursor: pointer;
 }
 
 .container {
@@ -379,6 +392,10 @@ h3 {
   text-align: center;
 }
 
+#weatherImage {
+  background: blue;
+}
+
 .uvFC {
   font-weight: bold;
 }
@@ -446,6 +463,9 @@ h3 {
 
 @media screen  and (min-width: 760px) /* Tablet */ {
   
+  startPage {
+    margin-top: -58px;
+  }
 
   nav {
     display: flex;
@@ -507,6 +527,7 @@ h3 {
     height: 80px;
   }
 
+
   #protectionPage {
     padding: 20px;
     margin-top: 150px;
@@ -537,6 +558,10 @@ h3 {
 }
 
 @media screen and (min-width: 980px) /* Desktop */ {
+
+  .startPage {
+    margin-top: 0px;
+  }
   
   #startImage {
     height: 150px;

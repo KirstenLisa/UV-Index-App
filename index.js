@@ -1,7 +1,7 @@
 'use strict';
 
-var userLat=0;
-var userLng=0;
+var userLat= 0;
+var userLng= 0;
 var timeDiff=0;
 var city ='';
 
@@ -38,7 +38,7 @@ function buildStartPage() {
         <form id="js-form">
             <label for="location">Enter your location</label>
             <input type="text" name="locationInput" id="js-location-input" placeholder="e.g. Toronto" required>
-            <input type="submit" value="Get UV Index!">
+            <input class="uvButton" type="submit" value="Get UV Index!">
         </form>
      </div>
      <div class="errorMessage">   
@@ -71,7 +71,7 @@ buildStartPage();
    $('#uvIndexLink').click(function(event) {
      console.log("uvLink works");
      $('main').empty();
-     buildStartPage();
+     buildStartPage2();
      watchForm();
    });
  }
@@ -124,7 +124,20 @@ function toggleHamburgerMenu() {
 })
 }
 
-
+function buildStartPage2() {
+  $('main').append(`<div class="startPage2"><img id="startImage2" class="mainPic" src="images/sunbed.png" alt="sunbed">
+        <h1>Beach or Basement?</h1>
+        <h3 class="startH2">Find out how long you should stay in the sun today</h3>
+        <form id="js-form">
+            <label for="location">Enter your location</label>
+            <input type="text" name="locationInput" id="js-location-input" placeholder="e.g. Toronto" required>
+            <input class="uvButton" type="submit" value="Get UV Index!">
+        </form>
+     </div>
+     <div class="errorMessage">   
+        <p id="js-error-message" class="error-message"></p>
+    </div>`);
+}
 
 
 
@@ -547,7 +560,7 @@ function getWeather(latitude, longitude) {
 function displayWeather(responseJson) {
   console.log('display weather ran');
   console.log(responseJson);
-  let daytime = `${responseJson.data[0].weather.pod}`;
+  let daytime = `${responseJson.data[0].pod}`;
   let weather = `${responseJson.data[0].weather.description}`;
   let temperature = `${responseJson.data[0].temp}`;
   let wind = `${responseJson.data[0].wind_spd}`;

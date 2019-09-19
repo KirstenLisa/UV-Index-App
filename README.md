@@ -18,38 +18,38 @@ The App consists of four basic functions:
 5. The app also provides links to further information on the UV index itself, skin types classification and a test to determine your skin type
 
 1.1 Start page:
- <img src="screenshots/StartPage.png" height="400" display="block" alt="Screenshot">
+ <img src="screenshots/StartPage.png" width="400px" display="block" alt="Screenshot">
 
 
 
 1.2 Result page 1:
 
-<img src="screenshots/UVIndexResult1.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/UVIndexResult1.png" width="400px" display="block" alt="Screenshot">
 
 
 1.3. Result page 2:
 
-<img src="screenshots/UVIndexResults2.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/UVIndexResults2.png" width="400px display="block" alt="Screenshot">
 
 
 2. Protection time:
 
-<img src="screenshots/ProtectionTime.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/ProtectionTime.png" width="400px" display="block" alt="Screenshot">
 
 
 3. UV forecast:
 
-<img src="screenshots/UVForecast.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/UVForecast.png" width="400px" display="block" alt="Screenshot">
 
 
 4. Weather:
 
-<img src="screenshots/Weather.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/Weather.png" width="400px" display="block" alt="Screenshot">
 
 
 5. Links to further information: 
 
-<img src="screenshots/ExtendedMenu.png" height="400" display="block" alt="Screenshot">
+<img src="screenshots/ExtendedMenu.png" width="400px" display="block" alt="Screenshot">
 
 
 Built with:

@@ -201,6 +201,7 @@ button, input[type="text"] {
   padding: 5px;
 }
 
+
 input:hover {
   cursor: pointer;
 }
@@ -401,7 +402,7 @@ h3 {
 }
 
 .red {
-  color: red;
+  color: #ff0036e6;
 }
 
 
@@ -560,7 +561,7 @@ h3 {
 @media screen and (min-width: 980px) /* Desktop */ {
 
   .startPage {
-    margin-top: 0px;
+    margin-top: -40px;
   }
   
   #startImage {
@@ -622,6 +623,10 @@ h3 {
 
   h2 {
     font-size: 38px;
+  }
+
+  .uvButton {
+    margin-bottom: 60px;
   }
 
   .results-value {

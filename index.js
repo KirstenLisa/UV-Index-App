@@ -1,5 +1,5 @@
 'use strict';
-
+// ${responseJson.result[i].uv >3.5 ? 'uvFC red' : 'uvFC'}
 var userLat= 0;
 var userLng= 0;
 var timeDiff=0;
@@ -505,12 +505,10 @@ function convertResultsFC(responseJson) {
   console.log('display forecast ran');
   let resultsLi =[];
   for(let i=0; i<responseJson.result.length; i++) {
-    resultsLi += `<li><span class="uvFC">${responseJson.result[i].uv}</span> UV Index at ` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" 
+    resultsLi += `<li><span class="${responseJson.result[i].uv >3.5 ? 'uvFC red' : 'uvFC'}">${responseJson.result[i].uv}</span> UV Index at ` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" 
     + new Date(`${responseJson.result[i].uv_time}`).getMinutes().toString().replace(/^(\d)$/, '0$1')
     + `</li>`;
-    if(`${responseJson.result[i].uv}`>3.5) {
-      $('li').addClass('red'); 
-    }
+    
   }
   console.log(resultsLi);
   displayResultsFC(resultsLi);

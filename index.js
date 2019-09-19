@@ -1,9 +1,8 @@
 'use strict';
-// ${responseJson.result[i].uv >3.5 ? 'uvFC red' : 'uvFC'}
-var userLat= 0;
-var userLng= 0;
-var timeDiff=0;
-var city ='';
+
+let userLat= 0;
+let userLng= 0;
+let city ='';
 
 // API Keys
 const apiKey = '333747dc8dfa02a42a6f0acf5208fa31';
@@ -53,7 +52,7 @@ buildStartPage();
 
  function protectionLink() {
    $('#protectionTimeLink').click(function(event) {
-     console.log("protectionLink works");
+     console.log('protectionLink works');
      $('main').empty();
      getUVProtection(userLat, userLng);
    });
@@ -61,7 +60,7 @@ buildStartPage();
 
  function forecastLink() {
    $('#uvForecastLink').click(function(event) {
-     console.log("forecastLink works");
+     console.log('forecastLink works');
      $('main').empty();
      getUVForecast(userLat, userLng);
    });
@@ -69,7 +68,7 @@ buildStartPage();
 
  function uvLink() {
    $('#uvIndexLink').click(function(event) {
-     console.log("uvLink works");
+     console.log('uvLink works');
      $('main').empty();
      buildStartPage2();
      watchForm();
@@ -78,7 +77,7 @@ buildStartPage();
 
   function weatherLink() {
    $('#weatherLink').click(function(event) {
-     console.log("weatherLink works");
+     console.log('weatherLink works');
      $('main').empty();
      getWeather(userLat, userLng);
    });
@@ -112,13 +111,13 @@ function buildNav() {
 
 function toggleHamburgerMenu() {
   $('.hamburger').click(function(event) {
-  let hamburger = document.getElementById("hamburger");
-  let menu = document.getElementById("linkList");
-  if (menu.style.display === "flex") {
-    menu.style.display = "none"; 
+  let hamburger = document.getElementById('hamburger');
+  let menu = document.getElementById('linkList');
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none'; 
 
   } else {
-    menu.style.display = "flex";
+    menu.style.display = 'flex';
   }
   console.log('Menu ran');
 })
@@ -246,21 +245,21 @@ function getUVIndex(latitude, longitude) {
 
  function protectionButtonHandler() {
    $('#protectionButton').click(function(event) {
-     console.log("protectionButton works");
+     console.log('protectionButton works');
      getUVProtection(userLat, userLng);
    });
  }
 
  function forecastButtonHandler() {
    $('#forecastButton').click(function(event) {
-     console.log("forecastButton works");
+     console.log('forecastButton works');
      getUVForecast(userLat, userLng);
    });
  }
 
  function weatherButtonHandler() {
   $('#weatherButton').click(function(event) {
-    console.log("weatherHandler works");
+    console.log('weatherHandler works');
     getWeather(userLat, userLng);
  });
 }
@@ -268,7 +267,7 @@ function getUVIndex(latitude, longitude) {
 function displayResultsUV(responseJson) {
   console.log(responseJson);
   let uvIndex = `${responseJson.result.uv}`;
-  console.log("The index is: " + uvIndex);
+  console.log('The index is: ' + uvIndex);
   console.log(`${responseJson.result.safe_exposure_time.st1}`);
   $('main').empty();
   buildNav();

@@ -26,9 +26,7 @@ const baseUrlTime = 'http://api.geonames.org/timezoneJSON?';
 const baseUrlWeather = 'https://api.weatherbit.io/v2.0/current?';
 
 let today = new Date;
-console.log(today);
 let tomorrow = new Date(today.setDate(today.getDate() + 1));
-console.log(tomorrow);
 
 function buildStartPage() {
   $('main').append(`<div class="startPage"><img id="startImage" class="mainPic" src="images/sunbed.png" alt="sunbed">
@@ -52,7 +50,6 @@ buildStartPage();
 
  function protectionLink() {
    $('#protectionTimeLink').click(function(event) {
-     console.log('protectionLink works');
      $('main').empty();
      getUVProtection(userLat, userLng);
    });
@@ -60,7 +57,6 @@ buildStartPage();
 
  function forecastLink() {
    $('#uvForecastLink').click(function(event) {
-     console.log('forecastLink works');
      $('main').empty();
      getUVForecast(userLat, userLng);
    });
@@ -68,20 +64,30 @@ buildStartPage();
 
  function uvLink() {
    $('#uvIndexLink').click(function(event) {
-     console.log('uvLink works');
-     $('main').empty();
-     buildStartPage2();
+     location.reload();
      watchForm();
    });
  }
 
   function weatherLink() {
    $('#weatherLink').click(function(event) {
-     console.log('weatherLink works');
      $('main').empty();
      getWeather(userLat, userLng);
    });
  }
+
+function toggleHamburgerMenu() {
+  $('.hamburger').click(function(event) {
+  let hamburger = document.getElementById('hamburger');
+  let menu = document.getElementById('linkList');
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none'; 
+
+  } else {
+    menu.style.display = 'flex';
+  }
+})
+}
 
 
 function buildNav() {
@@ -109,68 +115,9 @@ function buildNav() {
         toggleHamburgerMenu();
 }
 
-function toggleHamburgerMenu() {
-  $('.hamburger').click(function(event) {
-  let hamburger = document.getElementById('hamburger');
-  let menu = document.getElementById('linkList');
-  if (menu.style.display === 'flex') {
-    menu.style.display = 'none'; 
-
-  } else {
-    menu.style.display = 'flex';
-  }
-  console.log('Menu ran');
-})
-}
-
-function buildStartPage2() {
-  $('main').append(`<div class="startPage2"><img id="startImage2" class="mainPic" src="images/sunbed.png" alt="sunbed">
-        <h1>Beach or Basement?</h1>
-        <h3 class="startH2">Find out how long you should stay in the sun today</h3>
-        <form id="js-form">
-            <label for="location">Enter your location</label>
-            <input type="text" name="locationInput" id="js-location-input" placeholder="e.g. Toronto" required>
-            <input class="uvButton" type="submit" value="Get UV Index!">
-        </form>
-     </div>
-     <div class="errorMessage">   
-        <p id="js-error-message" class="error-message"></p>
-    </div>`);
-}
-
-
-
-
-// get current location if enabled
-/* let options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
-
-function success(pos) {
-  let crd = pos.coords;
-
-  console.log('Current position:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-
-  let userLat = `${crd.latitude}`;
-  let userLng = `${crd.longitude}`;
-  console.log(lat);
-  console.log(lng);
-}
-
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-}
-
-navigator.geolocation.getCurrentPosition(success, error, options); */
-
 //get location from input
 function getLongLat(userInput) {
   const searchUrlLoc = baseUrlLoc + 'key=' + apiKeyMaps + '&address=' + userInput + '&sensor=false';
-  console.log(searchUrlLoc);
 
   fetch(searchUrlLoc) 
     .then(response => {
@@ -189,40 +136,12 @@ function getResultsLoc(responseJson) {
  userLat = `${responseJson.results[0].geometry.location.lat}`;
  userLng = `${responseJson.results[0].geometry.location.lng}`;
  city = `${responseJson.results[0].formatted_address}`;
- console.log(responseJson);
- console.log(userLat);
- console.log(userLng);
  getUVIndex(userLat, userLng);
-} 
-
-function getTimeZone(latitude, longitude) {
-  const searchUrlTime = baseUrlTime + 'lat=' + latitude + '&lng=' + longitude + '&username=kirstenlisa';
-
-  console.log(searchUrlTime);
-
-  fetch(searchUrlTime)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then(responseJson => convertTime(responseJson))
-    .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
-    }); 
 } 
   
 
-
-function convertTime(responseJson) {
-  timeDiff = `${responseJson.dstOffset}`
-  console.log(timeDiff);
-}
-
 function getUVIndex(latitude, longitude) {
   const urlUV = baseUrlUV + '?lat=' + latitude + '&lng=' + longitude;
-  console.log(urlUV);
 
   const options = {
     headers: new Headers({
@@ -242,33 +161,26 @@ function getUVIndex(latitude, longitude) {
     }); 
 } 
 
-
  function protectionButtonHandler() {
    $('#protectionButton').click(function(event) {
-     console.log('protectionButton works');
      getUVProtection(userLat, userLng);
    });
  }
 
  function forecastButtonHandler() {
    $('#forecastButton').click(function(event) {
-     console.log('forecastButton works');
      getUVForecast(userLat, userLng);
    });
  }
 
  function weatherButtonHandler() {
   $('#weatherButton').click(function(event) {
-    console.log('weatherHandler works');
     getWeather(userLat, userLng);
  });
 }
 
 function displayResultsUV(responseJson) {
-  console.log(responseJson);
   let uvIndex = `${responseJson.result.uv}`;
-  console.log('The index is: ' + uvIndex);
-  console.log(`${responseJson.result.safe_exposure_time.st1}`);
   $('main').empty();
   buildNav();
 
@@ -423,12 +335,10 @@ function displayResultsUV(responseJson) {
     }
   weatherButtonHandler();
   protectionButtonHandler();
-  treadmillButtonHandler();
 }
 
 function getUVProtection(latitude, longitude) {
   const urlProt = baseUrlProt + '?lat=' + latitude + '&lng=' + longitude;
-  console.log(urlProt);
 
   const options = {
     headers: new Headers({
@@ -451,20 +361,16 @@ function getUVProtection(latitude, longitude) {
 
 
 function displayResultsProt(responseJson) {
-  console.log('protection ran');
-  console.log(responseJson);
   //getTimeZone(userLat, userLng);
   let startRaw = `${responseJson.result.from_time}`;
   let endRaw = `${responseJson.result.to_time}`;
-  console.log("start raw: " + startRaw);
   let startTime = new Date(startRaw);
   let endTime = new Date(endRaw);
   let startHours = startTime.getHours();
   let startMin = startTime.getMinutes();
   let endHours = endTime.getHours();
   let endMin = endTime.getMinutes().toString().replace(/^(\d)$/, '0$1');
-  console.log("Time: " + startTime);
-  console.log("endRaw: "+ endTime);
+
   $('main').empty();
   $('main').append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
         <p class="results-protection">
@@ -472,13 +378,12 @@ function displayResultsProt(responseJson) {
             Use adequate protection or go to the beach after ${endHours}:${endMin}.</p>
             <input id="forecastButton" class="button" type="submit" value="Get tomorrow's UV index">
     </div>`);
-    forecastButtonHandler()
-    treadmillButtonHandler() 
+    forecastButtonHandler();
+    weatherButtonHandler();
 }
 
 function getUVForecast(latitude, longitude) {
   const urlFC = baseUrlFC + '?lat=' + latitude + '&lng=' + longitude + '&dt=' + tomorrow;
-  console.log(urlFC);
 
   const options = {
     headers: new Headers({
@@ -500,8 +405,6 @@ function getUVForecast(latitude, longitude) {
 
 
 function convertResultsFC(responseJson) {
-  console.log(responseJson);
-  console.log('display forecast ran');
   let resultsLi =[];
   for(let i=0; i<responseJson.result.length; i++) {
     resultsLi += `<li><span class="${responseJson.result[i].uv >3.5 ? 'uvFC red' : 'uvFC'}">${responseJson.result[i].uv}</span> UV Index at ` + new Date(`${responseJson.result[i].uv_time}`).getHours() + ":" 
@@ -509,9 +412,7 @@ function convertResultsFC(responseJson) {
     + `</li>`;
     
   }
-  console.log(resultsLi);
   displayResultsFC(resultsLi);
-
 }
 
 function displayResultsFC(result) {
@@ -526,10 +427,7 @@ function displayResultsFC(result) {
 
 
 function getWeather(latitude, longitude) {
-  console.log(userLat);
-  console.log('get weather ran');
   const urlWeather = baseUrlWeather +'&lat='+ latitude + '&lon=' + longitude + '&key=' + apiWeather;
-  console.log(urlWeather);
 
   fetch(urlWeather)
     .then(response => {
@@ -547,18 +445,13 @@ function getWeather(latitude, longitude) {
 
 
 function displayWeather(responseJson) {
-  console.log('display weather ran');
-  console.log(responseJson);
   let daytime = `${responseJson.data[0].pod}`;
   let weather = `${responseJson.data[0].weather.description}`;
   let temperature = `${responseJson.data[0].temp}`;
   let wind = `${responseJson.data[0].wind_spd}`;
   let humidity = `${responseJson.data[0].rh}`;
   let cloudCoverage = `${responseJson.data[0].clouds}`;
-  console.log(weather);
-  console.log(temperature);
-  console.log(wind);
-  console.log(daytime);
+  
   $('main').empty();
   if(daytime == "n") {
     $('main').append(`<div id="weatherPage">
@@ -656,7 +549,6 @@ function watchForm() {
     event.preventDefault();
     const locationInput = $('#js-location-input').val();
     $('#js-location-input').val('');
-    console.log(locationInput);
     getLongLat(locationInput);
   });
 }

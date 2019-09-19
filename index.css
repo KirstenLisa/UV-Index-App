@@ -216,6 +216,11 @@ input:hover {
 
 .error-message {
     color: red;
+    font-size: 40px;
+    position: absolute;
+    bottom: 12px;
+    left: 40px;
+    font-weight: bold;
 }
 
 .uvResult {
@@ -457,8 +462,16 @@ h3 {
 
 @media screen  and (min-width: 760px) /* Tablet */ {
   
-  startPage {
-    margin-top: -58px;
+  .startPage {
+    margin-top: -10px;
+  }
+
+  label {
+    font-size: 25px;
+  }
+
+  input {
+    height: 50px;
   }
 
   nav {
@@ -521,6 +534,11 @@ h3 {
     height: 80px;
   }
 
+  .button {
+    font-size: 22px;
+    height: 50px;
+    width: 65%;
+  }
 
   #protectionPage {
     padding: 20px;

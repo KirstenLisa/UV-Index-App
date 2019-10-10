@@ -320,6 +320,7 @@ function displayResultsUV(responseJson) {
       </div>
       <input id="weatherButton" class="button" type="submit" value="Check the weather">
       <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
+      <input id="restartButton" class="button" type="submit" value="Change City">
     </section>`);
     }
   weatherButtonHandler();

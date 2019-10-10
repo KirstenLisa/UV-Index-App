@@ -62,8 +62,15 @@ buildStartPage();
    });
  }
 
- function uvLink() {
-   $('#uvIndexLink').click(function(event) {
+ function uvPage() {
+   $('#currentUVI').click(function(event) {
+     $('main').empty();
+     getUVIndex(userLat, userLng);
+   })
+ }
+
+ function uvRestart() {
+   $('#restartButton').click(function(event) {
      location.reload();
      watchForm();
    });
@@ -78,8 +85,7 @@ buildStartPage();
 
 function toggleHamburgerMenu() {
   $('.hamburger').click(function(event) {
-  let hamburger = document.getElementById('hamburger');
-  let menu = document.getElementById('linkList');
+  let menu = document.getElementById('navList');
   if (menu.style.display === 'flex') {
     menu.style.display = 'none'; 
 
@@ -89,31 +95,61 @@ function toggleHamburgerMenu() {
 })
 }
 
+function toggleCoconut() {
+  $('#coconutButton').click(function(event) {
+    let exLinks = document.getElementById('linkList');
+    let varFooter = document.getElementById('footer');
+    if(exLinks.style.display === 'flex') {
+      exLinks.style.display = 'none';
+      varFooter.style.backgroundColor = 'lightblue';
+
+    } else {
+      exLinks.style.display = 'flex';
+      varFooter.style.backgroundColor = '#89dcc4'; 
+    }
+  })
+}
+
 
 function buildNav() {
-  $('header').append(`<nav role="navigation"><img id="logo" src="images/beach-umbrella.png" alt="logo">
-            <ul id="navList">
-                <li id="uvIndexLink"><a href="#startPage"><img class="linkImage" src="images/sun2.png" alt="sun">Get UV Index</a></li>
-                <li id="uvForecastLink"><a href="#forecastPage"><img class="linkImage" src="images/sun2.png" alt="sun">UV Forecast</a></li>
-                <li id="protectionTimeLink"><a href="#protectionPage"><img class="linkImage" src="images/sun2.png" alt="sun">Protection Time</a></li>
-                <li id="weatherLink"><a href="#weatherPage"><img class="linkImage" src="images/sun2.png" alt="sun">Weather</a></li>
-            </ul>
-            <ul id="linkList">
-                <li id="uvIndexWiki"><a target="_blank" href="https://en.m.wikipedia.org/wiki/Ultraviolet_index">UV Index</a></li>
-                <li id="skinTypeLink"><a target="_blank" href="https://en.wikipedia.org/wiki/Fitzpatrick_scale">Skin Types</a></li>
-                <li id="skinTypeTest"><a target="_blank" href="https://www.uvdaily.com.au/assessing-your-risk/skin-types/">Test yourself</a></li>
-            </ul>
-            <img id="sun" src="images/sun.rays.medium.png" alt="sun">
-            <button id="hamburger" class="hamburger hamburger-cancel">
-            <span class="icon"></span>
-            </button>
-           </nav>`);
-        uvLink();
+  $('header').append(
+    `<nav role="navigation" id="nav">
+      <img id="logo" src="images/beach-umbrella.png" alt="logo"><img id="sun" src="images/sun.rays.medium.png" alt="sun">
+      <button id="hamburger" class="hamburger hamburger-cancel">
+      <span class="icon"></span>
+      </button>
+      <ul id="navList">
+        <li id="currentUVI"><a href="#results-UV"><img class="linkImage" src="images/sun2.png" alt="sun">UV Index</a></li>
+        <li id="uvForecastLink"><a href="#forecastPage"><img class="linkImage" src="images/sun2.png" alt="sun">UV Forecast</a></li>
+        <li id="protectionTimeLink"><a href="#protectionPage"><img class="linkImage" src="images/sun2.png" alt="sun">Protection Time</a></li>
+        <li id="weatherLink"><a href="#weatherPage"><img class="linkImage" src="images/sun2.png" alt="sun">Weather</a></li>
+      </ul>
+    </nav>`);
+        uvPage();
         protectionLink();
         forecastLink();
         weatherLink();
         toggleHamburgerMenu();
 }
+
+  function buildFooter() {
+    $('body').append(
+      `<footer role="footer" id="footer">
+      <button id="coconutButton">
+        <img id="footerImage" src="images/coconut.png" alt="coconut">
+        <p id="footerText">More Info</p>
+      </button>
+        <ul id="linkList">
+          <li id="uvIndexWiki"><a target="_blank" href="https://en.m.wikipedia.org/wiki/Ultraviolet_index">UV Index</a></li>
+          <li id="skinTypeLink"><a target="_blank" href="https://en.wikipedia.org/wiki/Fitzpatrick_scale">Skin Types</a></li>
+          <li id="skinTypeTest"><a target="_blank" href="https://www.uvdaily.com.au/assessing-your-risk/skin-types/">Test yourself</a></li>
+        </ul>
+      </footer>`);
+      toggleCoconut()
+  }
+
+//<li id="uvIndexLink"><a href="#startPage"><img class="linkImage" src="images/sun2.png" alt="sun">Change City</a></li> =>uvLink();
+//<input id="restartButton" class="button" type="submit" value="Change City">
 
 //get location from input
 function getLongLat(userInput) {
@@ -181,12 +217,23 @@ function getUVIndex(latitude, longitude) {
 
 function displayResultsUV(responseJson) {
   let uvIndex = `${responseJson.result.uv}`;
+  let exposureTime = `<h4 class="exposureTimeH">Safe Exposure Time</h4>
+  <ul id="results-list">
+    <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
+    <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
+    <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
+    <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span> </li>
+    <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span> </li>
+    <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
+    </ul>
+    <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
+    <input id="weatherButton" class="button" type="submit" value="Check the weather">
+</section>`;
   $('main').empty();
-  buildNav();
 
   if(uvIndex >= 11) {
     $('main').append(`<section id="results-UV" class="uvResult">
-      <h2>The UV Index in ${city} is</h2>
+      <h2>The UV Index in <span>${city}</span></h2>
       <p class="results-value">${uvIndex}
       </p>
       <h3 class="results-description">Violet alert! That is even more than red. You should not be outside without protection. Better stay inside, close your blinds, or to be on the safe side: go to the basement.</h3>
@@ -197,22 +244,11 @@ function displayResultsUV(responseJson) {
       <div class="inner inner-four"></div>
       <div class="inner inner-violet"></div>
       </div>
-      <h4 class="exposureTimeH">Safe Exposure Time</h4>
-      <ul id="results-list">
-        <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
-        <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
-        <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
-        <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span> </li>
-        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5 class="skinImage>Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span> </li>
-        <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
-        </ul>
-        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
-        <input id="weatherButton" class="button" type="submit" value="Check the weather">
-    </section>`);
+      ${exposureTime}`);
 
     } else if(uvIndex >= 8) {
       $('main').append(`<section id="results-UV" class="uvResult">
-      <h2>The UV Index in ${city} is</h2>
+      <h2>The UV Index in <span>${city}</span></h2>
       <p class="results-value">${uvIndex}
       </p>
       <h3 class="results-description">Red alert. This is the second highest UV index. , meaning: go somewhere where the sun doesn't shine.</h3>
@@ -223,23 +259,11 @@ function displayResultsUV(responseJson) {
       <div class="inner inner-red"></div>
       <div class="inner inner-five"></div>
       </div>
-
-      <h4 class="exposureTimeH">Safe Exposure Time</h4>
-      <ul id="results-list">
-        <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
-        <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
-        <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
-        <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span></li>
-        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
-        <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
-        </ul>
-        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
-        <input id="weatherButton" class="button" type="submit" value="Check the weather">
-    </section>`);
+      ${exposureTime}`);
 
      } else if(uvIndex >= 6) {
       $('main').append(`<section id="results-UV" class="uvResult">
-      <h2>The UV Index in ${city} is</h2>
+      <h2>The UV Index in <span>${city}</span></h2>
       <p class="results-value">${uvIndex}
       </p>
       <h3 class="results-description">A UV index reading of 6 to 7 means high risk of harm from unprotected sun exposure.  Protect yourself with sun screen, long sleeves, long pants, a hat and sun glasses.</h3>
@@ -250,23 +274,12 @@ function displayResultsUV(responseJson) {
       <div class="inner inner-four"></div>
       <div class="inner inner-five"></div>
       </div>
-      <h4 class="exposureTimeH">Safe Exposure Time</h4>
-      <ul id="results-list">
-        <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
-        <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
-        <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
-        <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span></li>
-        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
-        <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
-        </ul>
-        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
-        <input id="weatherButton" class="button" type="submit" value="Check the weather">
-    </section>`);
+      ${exposureTime}`);
 
 
     } else if(uvIndex >= 3) {
       $('main').append(`<section id="results-UV" class="uvResult">
-        <h2>The UV Index in ${city} is</h2>
+        <h2>The UV Index in <span>${city}</span></h2>
         <p class="results-value">${uvIndex}
         </p>
         <h3 class="results-description">A UV index reading of 3 to 5 means moderate risk of harm from unprotected sun exposure. But you should still wear sun screen or do you want to look like a raisin when you are old?</h3>
@@ -277,22 +290,11 @@ function displayResultsUV(responseJson) {
         <div class="inner inner-four"></div>
         <div class="inner inner-five"></div>
       </div>
-        <h4 class="exposureTimeH">Safe Exposure Time</h4>
-        <ul id="results-list">
-          <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
-          <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
-          <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
-          <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span></li>
-          <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
-          <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
-          </ul>
-        <input id="weatherButton" class="button" type="submit" value="Check the weather">
-        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
-    </section>`);
+        ${exposureTime}`);
 
   } else if(uvIndex > 0) {
     $('main').append(`<section id="results-UV" class="uvResult">
-      <h2>The UV Index in ${city} is</h2>
+      <h2>The UV Index in <span>${city}</span></h2>
       <p class="results-value">${uvIndex}
       </p>
       <h3 class="results-description">A UV index reading of 0 to 2 means low danger from the Sun\'s UV rays for the average person. Enjoy the beach!</h3>
@@ -303,22 +305,11 @@ function displayResultsUV(responseJson) {
         <div class="inner inner-four"></div>
         <div class="inner inner-five"></div>
       </div>
-      <h4 class="exposureTimeH">Safe Exposure Time</h4>
-      <ul id="results-list">
-        <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
-        <li class="skinType"><img src="images/brownHair2.jpg" alt="skin type2" class="skinImage">Skin Type no. 2: <span>${responseJson.result.safe_exposure_time.st2} min</span></li>
-        <li class="skinType"><img src="images/brownHair3.jpg" alt="skin type 3" class="skinImage">Skin Type no. 3: <span>${responseJson.result.safe_exposure_time.st3} min</span></li>
-        <li class="skinType"><img src="images/brownHair4.jpg" alt=skin type 4" class="skinImage">Skin Type no. 4: <span>${responseJson.result.safe_exposure_time.st4} min</span></li>
-        <li class="skinType"><img src="images/darkBrown5.jpg" alt="skin type 5" class="skinImage">Skin Type no. 5: <span>${responseJson.result.safe_exposure_time.st5} min</span></li>
-        <li class="skinType"><img src="images/black6.jpg" alt="skin type 6" class="skinImage">Skin Type no. 6: <span>${responseJson.result.safe_exposure_time.st6} min</span></li>
-          </ul>
-        <input id="weatherButton" class="button" type="submit" value="Check the weather">
-        <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
-    </section>`);
+      ${exposureTime}`);
 
     } else if(uvIndex == 0) {
         $('main').append(`<section id="results-UV" class="uvResult">
-        <h2>The UV Index is</h2>
+        <h2>The UV Index in <span>${city}</span></h2>
         <p class="results-value">${uvIndex}
         </p>
         <h3 class="results-description">No UV, no danger! Go out and enjoy the fresh air. But maybe take a look at the weather before.</h3>
@@ -335,6 +326,10 @@ function displayResultsUV(responseJson) {
     }
   weatherButtonHandler();
   protectionButtonHandler();
+  let menu = document.getElementById('navList');
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none'; 
+  }
 }
 
 function getUVProtection(latitude, longitude) {
@@ -371,15 +366,21 @@ function displayResultsProt(responseJson) {
   let endHours = endTime.getHours();
   let endMin = endTime.getMinutes().toString().replace(/^(\d)$/, '0$1');
 
-  $('main').empty();
-  $('main').append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3>Protection Time</h3>
+  $('main').empty().append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3 id="protectionHeadline">Protection Time in <span>${city}</span></h3>
         <p class="results-protection">
             From <span>${startHours}:${startMin}</span> to <span>${endHours}:${endMin}</span> the UV index is over 3.5. 
             Use adequate protection or go to the beach after ${endHours}:${endMin}.</p>
             <input id="forecastButton" class="button" type="submit" value="Get tomorrow's UV index">
+            <input id="weatherButton" class="button" type="submit" value="Check the weather">
+            <input id="restartButton" class="button" type="submit" value="Change City">
     </div>`);
     forecastButtonHandler();
     weatherButtonHandler();
+    uvRestart();
+    let menu = document.getElementById('navList');
+    if (menu.style.display === 'flex') {
+    menu.style.display = 'none'; 
+  }
 }
 
 function getUVForecast(latitude, longitude) {
@@ -416,13 +417,15 @@ function convertResultsFC(responseJson) {
 }
 
 function displayResultsFC(result) {
-  $('main').empty();
-  $('main').append(`<div id='#forecastPage'><img id="forecastImage" class="mainPic" src="images/slippers.png"><h2 id="forecastHeadline">Your UV Forecast for tomorrow</h2>
+  $('main').empty().append(`<div id='#forecastPage'><img id="forecastImage" class="mainPic" src="images/slippers.png"><h2 id="forecastHeadline">Your UV Forecast for tomorrow in <span>${city}</span></h2>
         <ul id="forecastList">
             ${result}
         </ul>
     </div>`)
-
+  let menu = document.getElementById('navList');
+  if (menu.style.display === 'flex') {
+  menu.style.display = 'none'; 
+    }
 } 
 
 
@@ -451,95 +454,64 @@ function displayWeather(responseJson) {
   let wind = `${responseJson.data[0].wind_spd}`;
   let humidity = `${responseJson.data[0].rh}`;
   let cloudCoverage = `${responseJson.data[0].clouds}`;
+  let temperatureDisplay = `<container class="temperatureDisplay">
+  <img id="tempPic" src="images/thermometer.png">
+  <p id="temp" class="results-value">${temperature} C°</p></container>
+  <ul class="weather-list">
+      <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
+      <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
+      <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
+  </ul>`;
   
   $('main').empty();
   if(daytime == "n") {
     $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
-            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherNight" class="mainPic" src="images/stars-and-moon.png">
             <container class="temperatureDisplay">
-            <img id="tempPic" src="images/thermometer.png">
-            <p id="temp" class="results-value">${temperature} C°</p></container>
-            <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-            </ul>
-    </div>`);
+            ${temperatureDisplay}</div>`);
+
 } else if(temperature > 30 && cloudCoverage < 50) {
   $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
-            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/sun@3x.png">
-            <container class="temperatureDisplay">
-            <img id="tempPic" src="images/thermometer.png">
-            <p id="temp" class="results-value">${temperature} C°</p></container>
-            <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-            </ul>
-    </div>`);
+            ${temperatureDisplay}</div>`);
+
 } else if(temperature < 30 && cloudCoverage < 50) {
   $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
-            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/sunblack.png">
-            <container class="temperatureDisplay">
-            <img id="tempPic" src="images/thermometer.png">
-            <p id="temp" class="results-value">${temperature} C°</p></container>
-            <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-            </ul>
-      </div>`);
+            ${temperatureDisplay}</div>`);
+
 } else if(temperature < 0) {
   $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
-            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/snowflake.png">
-            <container class="temperatureDisplay">
-            <img id="tempPic" src="images/thermometer.png">
-            <p id="temp" class="results-value">${temperature} C°</p></container>
-            <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-            </ul>
-      </div>`);
+            ${temperatureDisplay}</div>`);
+
 } else if(cloudCoverage > 80) {
   $('main').append(`<div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
-            The Weather in ${city} <p class="results-value">${weather}</p></h2>
+            The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/cloud.png">
-            <container class="temperatureDisplay">
-            <img id="tempPic" src="images/thermometer.png">
-            <p id="temp" class="results-value">${temperature} C°</p></container>
-            <ul class="weather-list">
-                <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-            </ul>
-      </div>`);
+            ${temperatureDisplay}</div>`);
+
 } else {
     $('main').append(`<div id="weatherPage">
           <h2 class="results-weather" id="#weather1">
-              The Weather in ${city} <p class="results-value">${weather}</p></h2>
+              The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
               <img id="weatherImage" class="mainPic" src="images/sun-92.png">
-              <container class="temperatureDisplay">
-              <img id="tempPic" src="images/thermometer.png">
-              <p id="temp" class="results-value">${temperature} C°</p></container>
-              <ul class="weather-list">
-                  <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
-                  <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
-                  <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-              </ul>
-        </div>`);
+              ${temperatureDisplay}</div>`);
 }
 
-
+let menu = document.getElementById('navList');
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none'; 
+  }
 }
 
 
@@ -547,10 +519,13 @@ function displayWeather(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
+    $('#js-location-input').geocomplete();
     const locationInput = $('#js-location-input').val();
     $('#js-location-input').val('');
     getLongLat(locationInput);
-  });
+    buildNav();
+    buildFooter();
+  }); 
 }
 
 startApp();

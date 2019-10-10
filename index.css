@@ -5,18 +5,24 @@
 body {
   font-family: Karla, sans-serif; 
   background: #ffffe0;
+  margin: 0px;
 }
+
 
 nav {
   background: lightblue;
   position: fixed;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
+  width: 100%;
+  height: 100px;
 }
+
 
 #logo {
   height: 86px;
@@ -24,7 +30,7 @@ nav {
 
 #sun {
   height: 93px;
-  position: relative;
+  position: absolute;
   right: 10px;
 }
 
@@ -51,27 +57,88 @@ a:hover {
 }
 
 #navList {
+  display: none;
   list-style: none;
   text-decoration: none;
+  margin-top: 95px;
+  background: lightblue;
+  flex-direction: row;
+  flex-wrap: wrap;
   text-align: center;
-  padding: 0px;
-  margin: 12px 12px 12px 0px;
-  font-size: 16px;
+  justify-content: space-between;
+  margin: 0px;
+  padding: 12px 12px 12px 12px;
+  font-size: 26px;
 }
+
+#navList li {
+  padding: 20px 20px 20px 0px;
+}
+
+footer {
+  display: flex;
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+  background-color: lightblue;
+  padding: 0px;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#footerImage {
+  height: 50px;
+}
+
+#coconutButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: transparent;
+  width: 100%;
+  border: none;
+}
+
+
+#coconutButton:hover {
+  background-color: #11e47b54;
+  cursor: pointer;
+}
+
+#footerText {
+  display: flex;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+#restartButton {
+  font-size: 22px;
+  height: 50px;
+  width: 65%;
+  border: 3px solid lightblue;
+}
+
+#restartButton:hover {
+  background-color: #11e47b54;
+  cursor: pointer;
+}
+
 
 #linkList {
   display: none;
-  order: 4;
   width: 100%;
   justify-content: space-around;
   position: absolute;
   flex-direction: row;
-  padding: 10px;
-  top: 77px;
+  padding: 0px;
+  margin: 0px;
+  top: 72px;
   right: 0px;
   list-style: none;
   text-decoration: none;
-  background: lightblue;
+  font-size: 20px;
+  background-color:  #89dcc4;
 }
 
 #linkList li {
@@ -79,7 +146,10 @@ a:hover {
 }
 
 .linkImage {
-  display: none;
+  height: 35px;
+  position: relative;
+  top: 8px;
+  left: -3px;
 }
 
 .hamburger {
@@ -237,6 +307,13 @@ h2 {
   font-size: 28px;
 }
 
+#results-UV span {
+  font-weight: bolder;
+  color: #68b1e8;
+  display: block;
+  text-transform: uppercase;
+}
+
 .results-description {
   font-size: 18px;
   text-align: center;
@@ -358,6 +435,12 @@ h4 {
 
 #protectionPage span {
   font-weight: bolder;
+  color: #68b1e8;
+}
+
+#protectionHeadline span {
+  display: block;
+  text-transform: uppercase;
 }
 
 .mainPic {
@@ -380,6 +463,7 @@ h3 {
   margin: 50px 20px 50px 20px;
 }
 
+
 #forecastList {
   list-style: none;
   padding: 0px;
@@ -391,9 +475,12 @@ h3 {
   text-align: center;
 }
 
-#weatherNight {
-  background: blue;
+#forecastHeadline span {
+  display: block;
+  color: #68b1e8;
+  text-transform: uppercase;
 }
+
 
 .uvFC {
   font-weight: bold;
@@ -403,11 +490,19 @@ h3 {
   color: #ff0036e6;
 }
 
-
+#weatherNight {
+  background: blue;
+}
 
 #weatherPage {
   display: flex;
   flex-direction: column;
+}
+
+#weatherPage span {
+  display: block;
+  color: #68b1e8;
+  text-transform: uppercase;
 }
 
 .mainPic {
@@ -461,6 +556,7 @@ h3 {
 }
 
 @media screen  and (min-width: 760px) /* Tablet */ {
+
   
   .startPage {
     margin-top: -10px;
@@ -480,13 +576,12 @@ h3 {
   }
 
   #navList {
-    display: flex;
+    display: none;
     flex-direction: row;
-    font-size: 16px;
+    font-size: 22px;
     margin: 0px;
     text-align: center;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
   }
 
   #navList li {
@@ -538,6 +633,7 @@ h3 {
     font-size: 22px;
     height: 50px;
     width: 65%;
+    border: 3px solid lightblue;
   }
 
   #protectionPage {
@@ -587,6 +683,29 @@ h3 {
     font-size: 40px;
   }
 
+  nav {
+    height: auto;
+  }
+
+  #navList {
+    display: flex !important; 
+    width: 89%;
+    justify-content: space-between;
+    font-size: 26px;
+  }
+
+  #navList li {
+    padding: 0px;
+  }
+
+  #sun {
+    display: none;
+  }
+
+  #hamburger {
+    display: none;
+  }
+
   .results-protection {
     font-size: 30px;
   }
@@ -605,27 +724,15 @@ h3 {
   }
 
   #logo {
-    height: 103px;
+    height: 105px;
   }
 
   .linkImage {
     display: inline-block;
-    height: 30px;
+    height: 44px;
     position: relative;
-    top: 9px;
+    top: 12px;
     left: -3px;
-  }
-
-  #navList {
-    font-size: 22px;
-  }
-
-  .hamburger {
-    right: 28px;
-  }
-
-  .linkImage {
-    height: 34px;
   }
 
   #linkList{
@@ -709,6 +816,7 @@ h3 {
     font-size: 24px;
     height: 60px;
     width: 65%;
+    border: 3px solid lightblue;
   }
 
   .temperatureDisplay {

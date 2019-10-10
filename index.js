@@ -148,9 +148,6 @@ function buildNav() {
       toggleCoconut()
   }
 
-//<li id="uvIndexLink"><a href="#startPage"><img class="linkImage" src="images/sun2.png" alt="sun">Change City</a></li> =>uvLink();
-//<input id="restartButton" class="button" type="submit" value="Change City">
-
 //get location from input
 function getLongLat(userInput) {
   const searchUrlLoc = baseUrlLoc + 'key=' + apiKeyMaps + '&address=' + userInput + '&sensor=false';
@@ -228,6 +225,7 @@ function displayResultsUV(responseJson) {
     </ul>
     <input id="protectionButton" class="button" type="submit" value="Find the best time for the beach">
     <input id="weatherButton" class="button" type="submit" value="Check the weather">
+    <input id="restartButton" class="button" type="submit" value="Change City">
 </section>`;
   $('main').empty();
 
@@ -251,7 +249,7 @@ function displayResultsUV(responseJson) {
       <h2>The UV Index in <span>${city}</span></h2>
       <p class="results-value">${uvIndex}
       </p>
-      <h3 class="results-description">Red alert. This is the second highest UV index. , meaning: go somewhere where the sun doesn't shine.</h3>
+      <h3 class="results-description">Red alert. This is the second highest UV index. Go somewhere where the sun doesn't shine.</h3>
       <div class="colorBar">
       <div class="inner inner-one"></div>
       <div class="inner inner-two"></div>
@@ -326,6 +324,7 @@ function displayResultsUV(responseJson) {
     }
   weatherButtonHandler();
   protectionButtonHandler();
+  uvRestart();
   let menu = document.getElementById('navList');
   if (menu.style.display === 'flex') {
     menu.style.display = 'none'; 
@@ -421,7 +420,11 @@ function displayResultsFC(result) {
         <ul id="forecastList">
             ${result}
         </ul>
+        <input id="weatherButton" class="button" type="submit" value="Check the weather">
+        <input id="restartButton" class="button" type="submit" value="Change City">
     </div>`)
+  weatherButtonHandler();
+  uvRestart();
   let menu = document.getElementById('navList');
   if (menu.style.display === 'flex') {
   menu.style.display = 'none'; 
@@ -461,7 +464,8 @@ function displayWeather(responseJson) {
       <li class="weatherLi"><img class="weatherIcon" src="images/water-drop.png" alt="humidity">Humidity: ${humidity} %</li>
       <li class="weatherLi"><img class="weatherIcon" src="images/wind2.png">Wind: ${wind} m/s</li>
       <li class="weatherLi"><img class="weatherIcon" src="images/cloud.png">Clouds: ${cloudCoverage} %</li>
-  </ul>`;
+  </ul>
+  <input id="restartButton" class="button" type="submit" value="Change City">`;
   
   $('main').empty();
   if(daytime == "n") {
@@ -507,7 +511,7 @@ function displayWeather(responseJson) {
               <img id="weatherImage" class="mainPic" src="images/sun-92.png">
               ${temperatureDisplay}</div>`);
 }
-
+uvRestart();
 let menu = document.getElementById('navList');
   if (menu.style.display === 'flex') {
     menu.style.display = 'none'; 

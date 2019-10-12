@@ -430,9 +430,19 @@ h4 {
   border: 2px solid lightblue;
 }
 
+#currentUV {
+  color: #68b1e8;
+  font-weight: bolder;
+  font-size: 21px;
+  text-align: center;
+}
+
 #protectionPage {
   padding: 20px;
-  margin-top: 150px;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #protectionPage span {
@@ -469,6 +479,13 @@ h3 {
   display: block;
 }
 
+#forecastPage {
+  padding: 20px;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 #forecastList {
   list-style: none;
@@ -664,9 +681,13 @@ h3 {
     margin-left: auto;
   }
 
+  #currentUV {
+    font-size: 26px;
+  }
+
   #protectionPage {
     padding: 20px;
-    margin-top: 150px;
+    margin-top: 46px;
     display: flex;
     flex-direction: column;
     align-items: center;

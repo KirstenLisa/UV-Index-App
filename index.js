@@ -3,6 +3,7 @@
 let userLat= 0;
 let userLng= 0;
 let city ='';
+let uvIndex = '';
 
 // API Keys
 const apiKey = '333747dc8dfa02a42a6f0acf5208fa31';
@@ -213,7 +214,7 @@ function getUVIndex(latitude, longitude) {
 }
 
 function displayResultsUV(responseJson) {
-  let uvIndex = `${responseJson.result.uv}`;
+  uvIndex = `${responseJson.result.uv}`;
   let exposureTime = `<h4 class="exposureTimeH">Safe Exposure Time</h4>
   <ul id="results-list">
     <li class="skinType"><img src="images/redHair.jpg" alt="skin type 1" class="skinImage">Skin Type no. 1: <span>${responseJson.result.safe_exposure_time.st1} min</span></li>
@@ -366,7 +367,7 @@ function displayResultsProt(responseJson) {
   let endHours = endTime.getHours();
   let endMin = endTime.getMinutes().toString().replace(/^(\d)$/, '0$1');
 
-  $('main').empty().append(`<div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3 id="protectionHeadline">Protection Time in <span>${city}</span></h3>
+  $('main').empty().append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="protectionPage"><img id="protectionImage" class="mainPic" src="images/sun-glasses.png" alt="Flipflops"><h3 id="protectionHeadline">Protection Time in <span>${city}</span></h3>
         <p class="results-protection">
             From <span>${startHours}:${startMin}</span> to <span>${endHours}:${endMin}</span> the UV index is over 3.5. 
             Use adequate protection or go to the beach after ${endHours}:${endMin}.</p>
@@ -417,7 +418,7 @@ function convertResultsFC(responseJson) {
 }
 
 function displayResultsFC(result) {
-  $('main').empty().append(`<div id='#forecastPage'><img id="forecastImage" class="mainPic" src="images/slippers.png"><h2 id="forecastHeadline">Your UV Forecast for tomorrow in <span>${city}</span></h2>
+  $('main').empty().append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="forecastPage"><img id="forecastImage" class="mainPic" src="images/slippers.png"><h2 id="forecastHeadline">Your UV Forecast for tomorrow in <span>${city}</span></h2>
         <ul id="forecastList">
             ${result}
         </ul>
@@ -470,7 +471,7 @@ function displayWeather(responseJson) {
   
   $('main').empty();
   if(daytime == "n") {
-    $('main').append(`<div id="weatherPage">
+    $('main').append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherNight" class="mainPic" src="images/stars-and-moon.png">
@@ -478,14 +479,14 @@ function displayWeather(responseJson) {
             ${temperatureDisplay}</div>`);
 
 } else if(temperature > 30 && cloudCoverage < 50) {
-  $('main').append(`<div id="weatherPage">
+  $('main').append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/sun@3x.png">
             ${temperatureDisplay}</div>`);
 
 } else if(temperature < 30 && cloudCoverage < 50) {
-  $('main').append(`<div id="weatherPage">
+  $('main').append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/sunblack.png">
@@ -499,14 +500,14 @@ function displayWeather(responseJson) {
             ${temperatureDisplay}</div>`);
 
 } else if(cloudCoverage > 80) {
-  $('main').append(`<div id="weatherPage">
+  $('main').append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="weatherPage">
         <h2 class="results-weather" id="#weather1">
             The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
             <img id="weatherImage" class="mainPic" src="images/cloud.png">
             ${temperatureDisplay}</div>`);
 
 } else {
-    $('main').append(`<div id="weatherPage">
+    $('main').append(`<div id="currentUV">Current UV index in ${city}: ${uvIndex}</div><div id="weatherPage">
           <h2 class="results-weather" id="#weather1">
               The Weather in <span>${city}</span><p class="results-value">${weather}</p></h2>
               <img id="weatherImage" class="mainPic" src="images/sun-92.png">

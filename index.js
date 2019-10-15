@@ -134,6 +134,8 @@ function buildNav() {
 }
 
   function buildFooter() {
+    let bool = $('body').containes(document.getElementById('footer'))
+    console.log('Does footer exist:',bool);
     $('body').append(
       `<footer role="footer" id="footer">
       <button id="coconutButton">
@@ -327,6 +329,7 @@ function displayResultsUV(responseJson) {
   weatherButtonHandler();
   protectionButtonHandler();
   uvRestart();
+  buildFooter();
   let menu = document.getElementById('navList');
   if (menu.style.display === 'flex') {
     menu.style.display = 'none'; 
@@ -530,7 +533,6 @@ function watchForm() {
     $('#js-location-input').val('');
     getLongLat(locationInput);
     buildNav();
-    buildFooter();
   }); 
 }
 

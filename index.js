@@ -134,9 +134,10 @@ function buildNav() {
 }
 
   function buildFooter() {
-    let bool = $('body').containes(document.getElementById('footer'))
+    let bool = $('#footer').length;
     console.log('Does footer exist:',bool);
-    $('body').append(
+    if(!bool) {
+      $('body').append(
       `<footer role="footer" id="footer">
       <button id="coconutButton">
         <img id="footerImage" src="images/coconut.png" alt="coconut">
@@ -148,6 +149,7 @@ function buildNav() {
           <li id="skinTypeTest"><a target="_blank" href="https://www.uvdaily.com.au/assessing-your-risk/skin-types/">Test yourself</a></li>
         </ul>
       </footer>`);
+    }
       toggleCoconut()
   }
 
